@@ -10,7 +10,7 @@ module ActiveAdmin
       private
 
       def powered_by_message
-        para "Powered by #{link_to("Active Admin", "http://www.activeadmin.info")} #{ActiveAdmin::VERSION}".html_safe
+        # para "Powered by #{link_to("Active Admin", "http://www.activeadmin.info")} #{ActiveAdmin::VERSION}".html_safe
       end
 
     end
