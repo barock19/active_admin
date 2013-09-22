@@ -14,6 +14,8 @@ module NavigationHelpers
       "/admin"
     when /the new post page/
       "/admin/posts/new"
+    when /the login page/
+      "/admin/login"
     when /the admin password reset form with reset password token "([^"]*)"/
       "/admin/password/edit?reset_password_token=#{$1}"
 
@@ -35,6 +37,9 @@ module NavigationHelpers
 
     when /^the last author's last post page$/
       admin_user_post_path(User.last, Post.where(:author_id => User.last.id).last)
+
+    when /^the last post's edit page$/
+      edit_admin_post_path(Post.last)
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

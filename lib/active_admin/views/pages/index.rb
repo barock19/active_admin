@@ -7,15 +7,16 @@ module ActiveAdmin
       class Index < Base
 
         def title
-          if config[:title].is_a? String
-            config[:title]
+          case config[:title]
+          when Proc then controller.instance_eval(&config[:title])
+          when String then config[:title]
           else
             active_admin_config.plural_resource_label
           end
         end
 
         def config
-          active_admin_config.get_page_presenter(:index) || default_index_config
+          active_admin_config.get_page_presenter(:index, params[:as]) || default_index_config
         end
 
         # Render's the index configuration that was set in the
@@ -61,7 +62,14 @@ module ActiveAdmin
           div :class => "table_tools" do
             build_batch_actions_selector
             build_scopes
-          end
+            build_index_list
+          end if any_table_tools?
+        end
+
+        def any_table_tools?
+          active_admin_config.batch_actions.any? ||
+          active_admin_config.scopes.any? ||
+          active_admin_config.page_presenters[:index].try(:size).try(:>, 1)
         end
 
         def build_batch_actions_selector
@@ -80,6 +88,19 @@ module ActiveAdmin
           end
         end
 
+        def build_index_list
+          indexes = active_admin_config.page_presenters[:index]
+
+          if indexes.kind_of?(Hash) && indexes.length > 1
+            index_classes = []
+            active_admin_config.page_presenters[:index].each do |type, page_presenter|
+              index_classes << find_index_renderer_class(page_presenter[:as])
+            end
+
+            index_list_renderer index_classes
+          end
+        end
+
         # Creates a default configuration for the resource class. This is a table
         # with each column displayed as well as all the default actions
         def default_index_config
@@ -95,17 +116,11 @@ module ActiveAdmin
 
         # Returns the actual class for renderering the main content on the index
         # page. To set this, use the :as option in the page_presenter block.
-        def find_index_renderer_class(symbol_or_class)
-          case symbol_or_class
-          when Symbol
-            ::ActiveAdmin::Views.const_get("IndexAs" + symbol_or_class.to_s.camelcase)
-          when Class
-            symbol_or_class
-          else
-            raise ArgumentError, "'as' requires a class or a symbol"
-          end
+        def find_index_renderer_class(klass)
+          klass.is_a?(Class) ? klass :
+            ::ActiveAdmin::Views.const_get("IndexAs" + klass.to_s.camelcase)
         end
-        
+
         def render_blank_slate
           blank_slate_content = I18n.t("active_admin.blank_slate.content", :resource_name => active_admin_config.plural_resource_label)
           if controller.action_methods.include?('new')
@@ -113,21 +128,23 @@ module ActiveAdmin
           end
           insert_tag(view_factory.blank_slate, blank_slate_content)
         end
-        
+
         def render_empty_results
           empty_results_content = I18n.t("active_admin.pagination.empty", :model => active_admin_config.plural_resource_label)
           insert_tag(view_factory.blank_slate, empty_results_content)
         end
-        
+
         def render_index
           renderer_class = find_index_renderer_class(config[:as])
           paginator      = config[:paginator].nil?      ? true : config[:paginator]
-          download_links = config[:download_links].nil? ? true : config[:download_links]
-          
+          download_links = config[:download_links].nil? ? active_admin_config.namespace.download_links : config[:download_links]
+          pagination_total = config[:pagination_total].nil? ? true : config[:pagination_total]
+
           paginated_collection(collection, :entry_name     => active_admin_config.resource_label,
-                                           :entries_name   => active_admin_config.plural_resource_label,
+                                           :entries_name   => active_admin_config.plural_resource_label(:count => collection_size),
                                            :download_links => download_links,
-                                           :paginator      => paginator) do
+                                           :paginator      => paginator,
+                                           :pagination_total => pagination_total) do
             div :class => 'index_content' do
               insert_tag(renderer_class, config, collection)
             end

@@ -1,13 +1,10 @@
 require 'spec_helper'
-require File.expand_path('base_controller_shared_examples', File.dirname(__FILE__))
 
 describe ActiveAdmin::ResourceController do
 
   before(:all) { load_defaults! }
 
   let(:controller) { ActiveAdmin::ResourceController.new }
-
-  it_should_behave_like "BaseController"
 
   describe "authenticating the user" do
     let(:controller){ Admin::PostsController.new }
@@ -57,10 +54,9 @@ describe ActiveAdmin::ResourceController do
 
 
   describe "callbacks" do
-    let(:application){ ::ActiveAdmin::Application.new }
-    let(:namespace){ ActiveAdmin::Namespace.new(application, :admin) }
-
     before :all do
+      application = ::ActiveAdmin::Application.new
+      namespace = ActiveAdmin::Namespace.new(application, :admin)
       namespace.register Post do
         after_build :call_after_build
         before_save :call_before_save
@@ -115,10 +111,10 @@ describe ActiveAdmin::ResourceController do
     describe "performing update" do
       let(:controller){ Admin::PostsController.new }
       let(:resource){ mock("Resource", :attributes= => true, :save => true) }
-      let(:attributes){ {} }
+      let(:attributes){ [{}] }
 
       before do
-        resource.should_receive(:attributes=).with(attributes)
+        resource.should_receive(:attributes=).with(attributes[0])
         resource.should_receive(:save)
       end
 
@@ -166,6 +162,7 @@ describe Admin::PostsController, :type => "controller" do
   describe 'retreiving the resource' do
     let(:controller){ Admin::PostsController.new }
     let(:post) { Post.new :title => "An incledibly unique Post Title" }
+
     before do
       Post.stub(:find).and_return(post)
       controller.class_eval { public :resource }
@@ -173,6 +170,7 @@ describe Admin::PostsController, :type => "controller" do
     end
 
     subject { controller.resource }
+
     it "returns a Post" do
       subject.should be_kind_of(Post)
     end
@@ -246,9 +244,9 @@ describe Admin::PostsController, :type => "controller" do
       it "should raise an error" do
         pending # doesn't pass when running whole spec suite (WTF)
 
-        lambda {
+        expect {
           post(:batch_action, :batch_action => "derp", :collection_selection => ["1"])
-        }.should raise_error("Couldn't find batch action \"derp\"")
+        }.to raise_error("Couldn't find batch action \"derp\"")
       end
     end
 
@@ -256,9 +254,9 @@ describe Admin::PostsController, :type => "controller" do
       it "should raise an error" do
         pending # doesn't pass when running whole spec suite (WTF)
 
-        lambda {
+        expect {
           post(:batch_action, :collection_selection => ["1"])
-        }.should raise_error("Couldn't find batch action \"\"")
+        }.to raise_error("Couldn't find batch action \"\"")
       end
     end
 
