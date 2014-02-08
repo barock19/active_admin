@@ -92,51 +92,27 @@ describe ActiveAdmin::Filters::ViewHelper do
     end
 
     it "should translate the label for text field" do
-      begin
-        I18n.backend.store_translations(:en, :activerecord => { :attributes => { :post => { :title => "Name" } } })
+      with_translation activerecord: {attributes: {post: {title: 'Name'}}} do
         expect(body).to have_tag('label', 'Name')
-      ensure
-        I18n.backend.reload!
       end
     end
 
     it "should select the option which is currently being filtered"
 
-  end
 
-  describe "string attribute with sub filters" do
-    let(:body) { filter :title_contains }
+    context "with predicate" do
+      %w[equals contains starts_with ends_with].each do |predicate|
+        describe '"'+predicate+'"' do
+          let(:body) { filter :"title_#{predicate}" }
 
-    it "should generate a search field for a string attribute with query contains" do
-      expect(body).to have_tag("input", :attributes => { :name => "q[title_contains]"})
-      expect(body).to have_tag('label', 'Title contains')
-    end
+          it "shouldn't include a select field" do
+            expect(body).not_to have_tag "select"
+          end
 
-    it "should NOT generate a select option for contains" do
-      expect(body).to_not have_tag("option", "Contains", :attributes => { :value => 'title_contains' })
-    end
-
-    context "using starts_with and as" do
-      let(:body) { filter :title_starts_with }
-
-      it "should generate a search field for a string attribute with query starts_with" do
-        expect(body).to have_tag("input", :attributes => { :name => "q[title_starts_with]" })
-      end
-    end
-
-    context "using ends_with and as" do
-      let(:body) { filter :title_ends_with }
-
-      it "should generate a search field for a string attribute with query ends_with" do
-        expect(body).to have_tag("input", :attributes => { :name => "q[title_ends_with]" })
-      end
-    end
-
-    context "using contains and NO AS defined" do
-      let(:body) { filter :title_contains }
-
-      it "should generate a search field for a string attribute with query contains" do
-        expect(body).to have_tag("input", :attributes => { :name => "q[title_contains]" })
+          it "should build correctly" do
+            expect(body).to have_tag("input", attributes: { name: "q[title_#{predicate}]" })
+          end
+        end
       end
     end
   end
@@ -217,11 +193,8 @@ describe ActiveAdmin::Filters::ViewHelper do
       end
 
       it "should translate the label for boolean field" do
-        begin
-          I18n.backend.store_translations(:en, :activerecord => { :attributes => { :post => { :starred => "Faved" } } })
+        with_translation activerecord: {attributes: {post: {starred: 'Faved'}}} do
           expect(body).to have_tag('label', 'Faved')
-        ensure
-          I18n.backend.reload!
         end
       end
     end
@@ -304,6 +277,15 @@ describe ActiveAdmin::Filters::ViewHelper do
       it "should raise an error if a collection isn't provided" do
         expect { filter :resource }.to raise_error \
           Formtastic::PolymorphicInputWithoutCollectionError
+      end
+    end
+
+    context "when using a custom foreign key" do
+      let(:scope) { Post.search }
+      let(:body)  { filter :category }
+      it "should should ignore that foreign key and let Ransack handle it" do
+        expect(Post.reflections[:category].foreign_key).to eq :custom_category_id
+        expect(body).to have_tag "select", attributes: { name: "q[category_id_eq]" }
       end
     end
   end # belongs to

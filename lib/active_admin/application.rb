@@ -67,6 +67,9 @@ module ActiveAdmin
     # The namespace root.
     inheritable_setting :root_to, 'dashboard#index'
 
+    # Display breadcrumbs
+    inheritable_setting :breadcrumb, true
+
     # Default CSV options
     inheritable_setting :csv_options, {:col_sep => ','}
 
@@ -175,6 +178,12 @@ module ActiveAdmin
       end
     end
 
+    def load(file)
+      super
+    rescue ActiveRecord::StatementInvalid => exception
+      raise DatabaseHitDuringLoad.new exception
+    end
+
     # Returns ALL the files to be loaded
     def files
       load_paths.flatten.compact.uniq.map{ |path| Dir["#{path}/**/*.rb"] }.flatten
@@ -200,6 +209,7 @@ module ActiveAdmin
         ActiveAdmin::Devise::PasswordsController.send name, *args, &block
         ActiveAdmin::Devise::SessionsController.send  name, *args, &block
         ActiveAdmin::Devise::UnlocksController.send   name, *args, &block
+        ActiveAdmin::Devise::RegistrationsController.send name, *args, &block
       end
     end
 
