@@ -62,18 +62,19 @@ module ActiveAdmin
       protected
 
       def build_pagination_with_formats(options)
-        div id: "index_footer" do
-          build_pagination
-          div(page_entries_info(options).html_safe, class: "pagination_information")
-
-          download_links = @download_links.is_a?(Proc) ? instance_exec(&@download_links) : @download_links
-
-          if download_links.is_a?(Array) && !download_links.empty?
-            build_download_format_links download_links
-          else
-            build_download_format_links unless download_links == false
+        div class: 'row footer-index-collection' ,id: "index_footer" do
+          div class: 'col-lg-9' do
+            build_pagination
+            div(page_entries_info(options).html_safe, class: "pagination_information")
           end
-
+          div class: 'col-lg-3' do
+            download_links = @download_links.is_a?(Proc) ? instance_exec(&@download_links) : @download_links
+            if download_links.is_a?(Array) && !download_links.empty?
+              build_download_format_links download_links
+            else
+              build_download_format_links unless download_links == false
+            end
+          end
         end
       end
 
