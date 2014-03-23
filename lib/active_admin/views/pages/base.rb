@@ -27,9 +27,6 @@ module ActiveAdmin
               text_node stylesheet_link_tag(style, options).html_safe
             end
 
-            active_admin_application.javascripts.each do |path|
-              text_node(javascript_include_tag(path))
-            end
             
             if active_admin_application.favicon
               text_node(favicon_link_tag(active_admin_application.favicon))
@@ -40,11 +37,17 @@ module ActiveAdmin
         end
 
         def build_page
+          @namespace = active_admin_namespace
+          @menu = current_menu 
+          @utility_menu = @namespace.fetch_menu(:utility_navigation)
           within @body do
-            div id: "wrapper" do
+            div class: 'wrapper' do
               build_header
-              build_title_bar
-              build_page_content
+              build_sidebar_nav
+              div id: 'page-wrapper' do
+                build_title_bar
+                build_page_content
+              end
               build_footer
             end
           end
@@ -54,8 +57,25 @@ module ActiveAdmin
           insert_tag view_factory.header, active_admin_namespace, current_menu
         end
 
+        def build_sidebar_nav
+          nav class: 'navbar-default navbar-static-side' do
+            div class: 'sidebar-collapse' do
+              insert_tag view_factory.global_navigation, @menu, class: 'nav'
+            end
+          end
+        end
+
         def build_title_bar
-          insert_tag view_factory.title_bar, title, action_items_for_action
+          with_12_col do
+            insert_tag view_factory.title_bar, title, action_items_for_action
+          end
+        end
+        def with_12_col 
+          div class: 'row' do
+            div class: 'col-lg-12' do
+              yield
+            end
+          end
         end
 
 
@@ -131,6 +151,9 @@ module ActiveAdmin
         # Renders the content for the footer
         def build_footer
           insert_tag view_factory.footer
+          active_admin_application.javascripts.each do |path|
+            text_node(javascript_include_tag(path))
+          end
         end
 
       end

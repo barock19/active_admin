@@ -3,41 +3,45 @@ module ActiveAdmin
     class TitleBar < Component
 
       def build(title, action_items)
-        super(id: "title_bar")
         @title = title
         @action_items = action_items
-        build_titlebar_left
-        build_titlebar_right
+        build_breadcrumb
+        div class: 'row' do
+          div class: 'col-lg-7' do
+            build_titlebar_left
+          end
+          div class: 'col-lg-5' do
+            build_titlebar_right
+          end
+        end
+        hr
       end
 
       private
 
       def build_titlebar_left
-        div id: "titlebar_left" do
-          build_breadcrumb
-          build_title_tag
-        end
+        build_title_tag
       end
 
       def build_titlebar_right
-        div id: "titlebar_right" do
+        div class: 'pull-right' do
           build_action_items
         end
       end
 
       def build_breadcrumb(separator = "/")
         breadcrumb_config = active_admin_config && active_admin_config.breadcrumb
-
         links = if breadcrumb_config.is_a?(Proc)
           instance_exec(controller, &active_admin_config.breadcrumb)
         elsif breadcrumb_config.present?
           breadcrumb_links
         end
         return unless links.present? && links.is_a?(::Array)
-        span class: "breadcrumb" do
+        ol class: "breadcrumb" do
           links.each do |link|
-            text_node link
-            span(separator, class: "breadcrumb_sep")
+            li do
+              text_node link
+            end
           end
         end
       end

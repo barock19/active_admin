@@ -24,9 +24,24 @@ module ActiveAdmin
         # Render's the index configuration that was set in the
         # controller. Defaults to rendering the ActiveAdmin::Pages::Index::Table
         def main_content
-          wrap_with_batch_action_form do
-            build_table_tools
-            build_collection
+          div class: 'panel panel-default' do
+            div class: 'panel-heading' do
+              div class: 'row' do
+                div class: 'col-lg-10' do
+                  build_table_tools
+                end
+                div class: 'col-lg-2 text-right' do
+                  # TODO: trigger table filter show
+                  build_filter_toggle
+                end
+              end
+
+            end 
+            div class: 'panel-body' do
+              wrap_with_batch_action_form do
+                build_collection
+              end
+            end
           end
         end
 
@@ -66,6 +81,12 @@ module ActiveAdmin
             build_scopes
             build_index_list
           end if any_table_tools?
+        end
+
+        def build_filter_toggle
+          span id: 'filter-toggle', class: 'btn btn-sm btn-info' do
+            "Show Filter"
+          end
         end
 
         def any_table_tools?

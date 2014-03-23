@@ -18,10 +18,11 @@ module ActiveAdmin
       end
 
       def tag_name
-        'ul'
+        'div'
       end
 
       def build(scopes, options = {})
+        super(class: 'btn-group')
         scopes.each do |scope|
           build_scope(scope, options) if call_method_or_proc_on(self, scope.display_if_block)
         end
@@ -30,22 +31,19 @@ module ActiveAdmin
       protected
 
       def build_scope(scope, options)
-        li class: classes_for_scope(scope) do
-          scope_name = I18n.t "active_admin.scopes.#{scope.id}", default: scope.name
-          params     = request.query_parameters.except :page, :scope, :commit, :format
-
-          a href: url_for(scope: scope.id, params: params), class: 'table_tools_button' do
-            text_node scope_name
-            span class: 'count' do
-              "(#{get_scope_count(scope)})"
-            end if options[:scope_count] && scope.show_count
-          end
+        scope_name = I18n.t "active_admin.scopes.#{scope.id}", default: scope.name
+        params     = request.query_parameters.except :page, :scope, :commit, :format
+        a href: url_for(scope: scope.id, params: params), class: 'table_tools_button btn btn-sm btn-default '+ classes_for_scope(scope) do
+          text_node scope_name
+          span class: 'badge badge-danger' do
+            "#{get_scope_count(scope)}"
+          end if options[:scope_count] && scope.show_count
         end
       end
 
       def classes_for_scope(scope)
         classes = ["scope", scope.id]
-        classes << "selected" if current_scope?(scope)
+        classes << "selected btn-success" if current_scope?(scope)
         classes.join(" ")
       end
 

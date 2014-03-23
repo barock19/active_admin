@@ -23,24 +23,25 @@ module ActiveAdmin
       private
 
       def build_drop_down
-        dropdown_menu I18n.t("active_admin.batch_actions.button_label"),
-                      class: "batch_actions_selector dropdown_menu",
-                      button: { class: "disabled" } do
-          batch_actions_to_display.each do |batch_action|
-            confirmation_text = render_or_call_method_or_proc_on(self, batch_action.confirm)
-
-            options = {
-              :class         => "batch_action",
-              "data-action"  => batch_action.sym,
-              "data-confirm" => confirmation_text,
-              "data-inputs"  => batch_action.inputs.to_json
-            }
-
-            default_title = render_or_call_method_or_proc_on(self, batch_action.title)
-            title = I18n.t("active_admin.batch_actions.labels.#{batch_action.sym}", default: default_title)
-            label = I18n.t("active_admin.batch_actions.action_label", title: title)
-
-            item label, "#", options
+        div class: 'btn-group batch_actions_selector' do
+          span  class: 'btn btn-primary btn-sm dropdown-toggle', 'data-toggle'=>'dropdown' do
+            text_node I18n.t("active_admin.batch_actions.button_label")
+            span class: 'caret'
+          end
+          ul class: 'dropdown-menu', role: 'menu' do
+            batch_actions_to_display.each do |batch_action|
+              confirmation_text = render_or_call_method_or_proc_on(self, batch_action.confirm)
+              options = {
+                :class         => "batch_action",
+                "data-action"  => batch_action.sym,
+                "data-confirm" => confirmation_text,
+                "data-inputs"  => batch_action.inputs.to_json
+              }
+              default_title = render_or_call_method_or_proc_on(self, batch_action.title)
+              title = I18n.t("active_admin.batch_actions.labels.#{batch_action.sym}", default: default_title)
+              label = I18n.t("active_admin.batch_actions.action_label", title: title)
+              li link_to label, "#", options
+            end
           end
         end
       end

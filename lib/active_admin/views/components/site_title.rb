@@ -4,16 +4,20 @@ module ActiveAdmin
     class SiteTitle < Component
 
       def tag_name
-        'h1'
+        if site_title_link?
+          'a'
+        else
+          'span'
+        end
       end
 
       def build(namespace)
-        super(id: "site_title")
         @namespace = namespace
-
         if site_title_link?
-          text_node site_title_with_link
+          super(id: "site_title",class: 'navbar-brand', href:@namespace.site_title_link)
+          text_node site_title_content
         else
+          super(id: 'site_title', class: 'navbar-brand')
           text_node site_title_content
         end
       end

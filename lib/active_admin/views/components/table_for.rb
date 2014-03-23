@@ -13,7 +13,7 @@ module ActiveAdmin
         @collection     = obj.respond_to?(:each) && !obj.is_a?(Hash) ? obj : [obj]
         @columns        = []
         build_table
-        super(options)
+        super(options.merge(class: 'table table-stripped table-bordered'))
       end
 
       def column(*args, &block)
