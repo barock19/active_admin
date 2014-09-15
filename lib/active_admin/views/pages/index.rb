@@ -79,7 +79,7 @@ module ActiveAdmin
         include ::ActiveAdmin::ViewHelpers::DownloadFormatLinksHelper
 
         def build_index_filter
-          active = ( request.query_parameters[:q] ? 'active' : '')
+          active = ( request.query_parameters[:q] ? 'active expand' : '')
           div class: "index-filter-outer #{active}" do
             div class: 'index-filter' do
               h3 class: 'no-margin' do

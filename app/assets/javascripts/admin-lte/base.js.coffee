@@ -24,6 +24,7 @@ $.rails.showConfirmDialog = (link) ->
   message = link.attr 'data-confirm'
   bootbox.confirm
     message: message
+    className: 'action-confirm'
     backdrop: true
     animate: false
     callback: (result)->
@@ -78,8 +79,8 @@ class LTEDateRangeFilter
   constructor: (el)->
     @el = $(el)
 
-    @buildPickerPlaceHolder()
     @defineInstanceEl()
+    @buildPickerPlaceHolder()
     @buildPickerDateStart()
     @buildPickerDateEnd()
     @setupListener()
@@ -123,13 +124,10 @@ class LTEDateRangeFilter
     @pickerEnd.open()
 
   buildPickerPlaceHolder: ->
-    html = '''
-    <div class="date-input-placeholder">
-      <input type="text" class="start-date-placeholder hidden"/>
-      <input type="text" class="end-date-placeholder hidden"/>
-    </div>
-    '''
-    @el.append( $ html)
+    startDatePlaceholderTpl = '<div class="date-input-placeholder"> <input type="text" class="start-date-placeholder hidden"/> </div>'
+    endDatePlaceholderTpl   = '<div class="date-input-placeholder"> <input type="text" class="end-date-placeholder hidden"/> </div>'
+    @startInputEL.after( $ startDatePlaceholderTpl)
+    @endInputEL.after( $ endDatePlaceholderTpl )
 
   _isSelect: (item)->
     ('select' in (keys for keys, values of item))
@@ -140,6 +138,8 @@ $(document).ready ->
     filterIndex = $('.index-filter-outer')
     isActive    = filterIndex.hasClass('active')
     height      = filterIndex.height()
+
+    filterIndex.removeClass('expand') if filterIndex.hasClass('expand')
 
     if !isActive
       filterIndex.addClass('active')
@@ -241,6 +241,7 @@ $(document).ready ->
     if !window.resourceSelectionsForBatch? or window.resourceSelectionsForBatch.length < 1
       bootbox.alert
         message: 'no resource selected'
+        className: 'action-confirm'
         backdrop: true
         animate: false
       return false
@@ -248,6 +249,7 @@ $(document).ready ->
     if message = $(@).data 'confirm'
       that = @
       bootbox.confirm
+        className: 'action-confirm'
         message: message
         backdrop: true
         animate: false

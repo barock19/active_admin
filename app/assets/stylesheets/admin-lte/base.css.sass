@@ -96,6 +96,8 @@ li.has_nested
   top: 0px
   right: 0px
 .index-filter-outer
+  &.expand
+    overflow: visible
   margin-top: 15px
   overflow: hidden
   border-bottom: 1px solid #ccc
@@ -185,25 +187,77 @@ li.has_nested
       input
         width: 55%
     &.filter_date_range
-      input
-        width: 40%
-        float: left
-        position: relative
-        &:before
-          width: 20px
-          top: 5px
-          left: 0px
-          height: 100%
-          content: "\f061"
-          font-family: FontAwesome
-          position: absolute
+      .date-range-wrapper
+        &:before, &:after
+          display: table
+          content: " "
+        &:after
+          clear: both
+        > div
+          float: left
+        > .start-date, > .end-date
+          width: 40%
+          position: relative
+          &:before
+            position: absolute
+            right: 0px
+            content: ''
+            width: 30px
+            height: 30px
+            color: #ccc
+            line-height: 30px
+            content: "\f073"
+            font-family: FontAwesome
+
+        > .seperator
+          width: 10%
+          display: block
+          text-align: center
+          position: relative
+          text-color: transparent
+          span
+            display: block
+            &:after
+              width: 100%
+              top: 5px
+              left: 0px
+              height: 100%
+              content: "\f061"
+              font-family: FontAwesome
+              position: absolute
+      .date-input-placeholder
+        width: 100%
+        margin-top: 10px
+        .picker--opened
+          .picker__holder
+            position: relative
+            border-left: none
+            border-right: none
+            overflow-y: visible
+            &:before, &:after
+              bottom: 100%
+              left: 20px
+              border: solid transparent
+              content: " "
+              height: 0
+              width: 0
+              position: absolute
+              z-index: 150
+              pointer-events: none
+              top: -24px
+            &:after
+              border-color: rgba(255, 255, 255, 0)
+              border-bottom-color: #fff
+              border-width: 14px
+              margin-left: -14px
+            &:before
+              border-color: rgba(23, 10, 19, 0)
+              border-bottom-color:transparent
+              border-width: 15px
+              margin-left: -15px
+        .picker__holder
+          width: 320px
       span
-        width: 10%
-        float: left
-        display: block
-        text-align: center
-        position: relative
-        text-color: transparent
         &:after
           width: 100%
           top: 5px
@@ -235,7 +289,22 @@ li.has_nested
 .table-action
   min-width: 150px
 .active_admin.logged_out
-  background: #222222 !important
+  background: -webkit-linear-gradient(90deg, #00d2ff 10%, #3a7bd5 90%) //* Chrome 10+, Saf5.1+ */
+  background:    -moz-linear-gradient(90deg, #00d2ff 10%, #3a7bd5 90%) //* FF3.6+ */
+  background:     -ms-linear-gradient(90deg, #00d2ff 10%, #3a7bd5 90%) //* IE10 */
+  background:      -o-linear-gradient(90deg, #00d2ff 10%, #3a7bd5 90%) //* Opera 11.10+ */
+  background:         linear-gradient(90deg, #00d2ff 10%, #3a7bd5 90%) //* W3C */
+
+  // background: -webkit-linear-gradient(90deg, #B993D6 10%, #8CA6DB 90%) // /* Chrome 10+, Saf5.1+ */
+  // background:    -moz-linear-gradient(90deg, #B993D6 10%, #8CA6DB 90%) // /* FF3.6+ */
+  // background:     -ms-linear-gradient(90deg, #B993D6 10%, #8CA6DB 90%) // /* IE10 */
+  // background:      -o-linear-gradient(90deg, #B993D6 10%, #8CA6DB 90%) // /* Opera 11.10+ */
+  // background:         linear-gradient(90deg, #B993D6 10%, #8CA6DB 90%) // /* W3C */
+        
+  .form-box
+    border: 10px solid transparentize(#fff, .5)
+    border-radius: 5px
+
 .box-header-inner
   min-height: 50px
 #footer
@@ -258,13 +327,6 @@ li.has_nested
 .has_many_container > .button.has_many_add
   margin-top: 20px
 
-.filter_date_range
-  position: relative
-  .date-input-placeholder
-    position: absolute
-    width: 100%
-    top: 60px
-
 
 body.active_admin.logged_out.new
   #content_wrapper > .flash
@@ -276,3 +338,12 @@ body.active_admin.logged_out.new
     border-radius: 5px
     color: #fff
 
+@media(min-width: 768px)
+  .modal.action-confirm .modal-dialog
+    width: 350px
+body > .wrapper > .right-side > .content
+  // background: -webkit-linear-gradient(90deg, #00d2ff 10%, #3a7bd5 90%) //* Chrome 10+, Saf5.1+ */
+  // background:    -moz-linear-gradient(90deg, #00d2ff 10%, #3a7bd5 90%) //* FF3.6+ */
+  // background:     -ms-linear-gradient(90deg, #00d2ff 10%, #3a7bd5 90%) //* IE10 */
+  // background:      -o-linear-gradient(90deg, #00d2ff 10%, #3a7bd5 90%) //* Opera 11.10+ */
+  // background:         linear-gradient(90deg, #00d2ff 10%, #3a7bd5 90%) //* W3C */
