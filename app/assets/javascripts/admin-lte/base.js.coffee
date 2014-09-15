@@ -7,8 +7,27 @@
 #= require admin-lte/picker
 #= require admin-lte/picker.date
 #= require admin-lte/picker.time
+#= require admin-lte/bootbox.min
 #= require admin-lte/app
 #= require_self
+
+$.rails.allowAction = (link) ->
+  return true unless link.attr('data-confirm')
+  $.rails.showConfirmDialog(link) # look bellow for implementations
+  false # always stops the action since code runs asynchronously
+
+$.rails.confirmed = (link) ->
+  link.removeAttr('data-confirm')
+  link.trigger('click.rails')
+
+$.rails.showConfirmDialog = (link) ->
+  message = link.attr 'data-confirm'
+  bootbox.confirm
+    message: message
+    backdrop: true
+    animate: false
+    callback: (result)->
+      $.rails.confirmed(link) if result
 
 class LTEDateTime
   constructor: (el)->
@@ -115,9 +134,6 @@ class LTEDateRangeFilter
   _isSelect: (item)->
     ('select' in (keys for keys, values of item))
 
-
-
-
 $(document).ready ->
   $('.sidebar-menu .has_nested').tree()
   $('.filter-toggle .btn').click ->
@@ -159,4 +175,84 @@ $(document).ready ->
     el.css('overflow', el.data('original-overflow'))
   )
 
+  # ------------------------- batch
+  toggleResourceSelection = (e)->
+    el = $ e.currentTarget
+    children = $('.resource_selection_cell .collection_selection')
+    if el.is(":checked") is true
+      children.prop("checked", true)
+    else
+      children.prop("checked", false)
 
+    children.trigger('change')
+
+  resourceSelectionChangeHandler = (e)->
+    batchBtnTrigger = $ '.batch_action_dropdown button[data-toggle]'
+    el = $ e.currentTarget
+    window.resourceSelectionsForBatch = [] unless window.resourceSelectionsForBatch?
+    id = el.data('resource-id')
+    if el.is(":checked") is true
+      window.resourceSelectionsForBatch.push(  id ) if window.resourceSelectionsForBatch.indexOf(id) == -1
+    else
+      index = window.resourceSelectionsForBatch.indexOf(id)
+      window.resourceSelectionsForBatch.splice(index, 1) if index > -1
+
+    if window.resourceSelectionsForBatch.length == 0
+      batchBtnTrigger.prop('disabled', true)
+    else
+      batchBtnTrigger.prop('disabled', false)
+
+  resourceSelections = $('.resource_selection_cell .collection_selection')
+  resourceSelections.change resourceSelectionChangeHandler
+  $('.resource_selection_toggle_cell #collection_selection_toggle_all').change toggleResourceSelection
+
+  submitBatch     = (e)->
+    batchBtnTrigger = $ '.batch_action_dropdown button[data-toggle]'
+    el        = $ e.currentTarget
+    action    = el.data('action')
+    urlTarget = batchBtnTrigger.data('target-url')
+    csrfKey   = $(document).find('meta[name="csrf-param"]').attr('content')
+    csrfToken = $(document).find('meta[name="csrf-token"]').attr('content')
+
+    #build virtual form
+    formTpl = """
+      <form accept-charset="UTF-8" action="#{urlTarget}" method="post" style="display: none">
+      <input name="utf8" value="✓"/>
+      <input name="#{csrfKey}" value="#{csrfToken}"/>
+      <input name="batch_action_inputs" value="{}"/>
+      <input name="batch_action" value="#{action}"/>
+    """
+
+    formTpl += """
+      <input type="text" value="#{resourceId}" name="collection_selection[]"/>
+    """ for resourceId in window.resourceSelectionsForBatch
+    formTpl += "</form>"
+
+    compiledForm = $( formTpl )
+    compiledForm.submit()
+
+
+  batchActionBtns = $ '.batch_action_dropdown ul.dropdown-menu > li > a'
+  batchActionBtns.on('confirm:complete', submitBatch)
+  batchActionBtns.click (e)->
+    e.stopPropagation()
+    e.preventDefault()
+
+    if !window.resourceSelectionsForBatch? or window.resourceSelectionsForBatch.length < 1
+      bootbox.alert
+        message: 'no resource selected'
+        backdrop: true
+        animate: false
+      return false
+
+    if message = $(@).data 'confirm'
+      that = @
+      bootbox.confirm
+        message: message
+        backdrop: true
+        animate: false
+        callback: (result)->
+          $(that).trigger 'confirm:complete'
+    else
+      $(@).trigger 'confirm:complete'
+  # ------------------------- batch

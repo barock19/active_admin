@@ -26,6 +26,8 @@ module ActiveAdmin
           button I18n.t("active_admin.batch_actions.button_label"), 
             type: 'button' ,
             class: 'btn btn-default dropdown-toggle btn-sm',
+            disabled: true,
+            'data-target-url' => active_admin_config.batch_action_path(params),
             'data-toggle'=> 'dropdown' do
               span class: 'caret'
           end
