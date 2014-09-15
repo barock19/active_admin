@@ -16,7 +16,7 @@ gem 'pundit'
 # Utility gems used in both development & test environments
 gem 'rake', require: false
 gem 'parallel_tests'
-
+gem 'formtastic-bootstrap', git: 'https://github.com/barock19/formtastic-bootstrap'
 group :development do
   # Debugging
   gem 'pry'                # Easily debug from your console with `binding.pry`

@@ -41,13 +41,17 @@ module ActiveAdmin
 
       def build_menu_item(item)
         li id: item.id do |li|
-          li.add_class "current" if item.current? assigns[:current_tab]
-
-          text_node link_to item.label(self), item.url(self), item.html_options
+          li.add_class "active" if item.current? assigns[:current_tab]
+          label_with_icon = <<-END.strip_heredoc.html_safe
+            <i class="fa #{ActiveAdmin.icon_collection.sample}"></i>
+            #{item.label(self)}
+          END
+          text_node link_to label_with_icon, item.url(self), item.html_options
 
           if children = item.items(self).presence
             li.add_class "has_nested"
-            ul do
+            i class: 'fa fa-caret-left main-menu-dropdown-caret'
+            ul class: 'treeview-menu' do
               children.each{ |child| build_menu_item child }
             end
           end
@@ -55,7 +59,7 @@ module ActiveAdmin
       end
 
       def default_options
-        { id: "tabs" }
+        { id: "tabs", class: "sidebar-menu" }
       end
     end
   end

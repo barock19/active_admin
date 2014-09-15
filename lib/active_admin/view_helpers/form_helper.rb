@@ -2,9 +2,12 @@ module ActiveAdmin
   module ViewHelpers
     module FormHelper
 
-      def active_admin_form_for(resource, options = {}, &block)
-        options = options.deep_dup
+      def active_admin_form_for resource, options = {}, &block
+        options = Marshal.load( Marshal.dump(options) )
         options[:builder] ||= ActiveAdmin::FormBuilder
+        options[:html] ||= {}
+        options[:html][:class] ||= ''
+        options[:html][:class] += ' lte-resource-form form-horizontal'
 
         semantic_form_for resource, options, &block
       end

@@ -5,7 +5,7 @@ module ActiveAdmin
 
     # Register Helper Renderers
     register  global_navigation:   ActiveAdmin::Views::TabbedNavigation,
-              utility_navigation:  ActiveAdmin::Views::TabbedNavigation,
+              utility_navigation:  ActiveAdmin::Views::UtilityNavigation,
               site_title:          ActiveAdmin::Views::SiteTitle,
               action_items:        ActiveAdmin::Views::ActionItems,
               title_bar:           ActiveAdmin::Views::TitleBar,
@@ -13,7 +13,8 @@ module ActiveAdmin
               footer:              ActiveAdmin::Views::Footer,
               index_scopes:        ActiveAdmin::Views::Scopes,
               blank_slate:         ActiveAdmin::Views::BlankSlate,
-              action_list_popover: ActiveAdmin::Views::ActionListPopover
+              action_list_popover: ActiveAdmin::Views::ActionListPopover,
+              batch_action_dropdown: ActiveAdmin::Views::BatchActionDropdown
 
     # Register All The Pages
     register  index_page: ActiveAdmin::Views::Pages::Index,

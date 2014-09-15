@@ -31,6 +31,7 @@ module ActiveAdmin
     end
 
     include Base
+    include Config
     include Resource::Controllers
     include Resource::PagePresenters
     include Resource::Sidebars

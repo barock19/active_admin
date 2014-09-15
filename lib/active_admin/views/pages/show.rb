@@ -2,7 +2,6 @@ module ActiveAdmin
   module Views
     module Pages
       class Show < Base
-
         def config
           active_admin_config.get_page_presenter(:show) || super
         end
@@ -20,7 +19,11 @@ module ActiveAdmin
             # Eval the show config from the controller
             instance_exec resource, &config.block
           else
-            default_main_content
+            div class: 'row' do
+              div class: 'col-md-8' do
+                default_main_content
+              end
+            end
           end
         end
 
@@ -43,8 +46,8 @@ module ActiveAdmin
         end
 
         module DefaultMainContent
-          def default_main_content(&block)
-            attributes_table(*default_attribute_table_rows, &block)
+          def default_main_content
+            attributes_table *default_attribute_table_rows
           end
 
           def default_attribute_table_rows

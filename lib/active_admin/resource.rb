@@ -69,6 +69,7 @@ module ActiveAdmin
     include MethodOrProcHelper
 
     include Base
+    include Config
     include ActionItems
     include Authorization
     include Controllers

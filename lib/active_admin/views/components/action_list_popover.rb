@@ -1,11 +1,8 @@
 require 'active_admin/views/components/popover'
-
 module ActiveAdmin
   module Views
-    # Build an ActionListPopover
     class ActionListPopover < ActiveAdmin::Views::Popover
       builder_method :action_list_popover
-
 
       def build(*args, &block)
         @contents = ul class: "popover_contents"

@@ -2,7 +2,6 @@ module ActiveAdmin
   module Views
     module Pages
       class Page < Base
-
         def main_content
           if page_presenter.block
             instance_exec &page_presenter.block

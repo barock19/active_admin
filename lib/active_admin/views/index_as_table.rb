@@ -1,9 +1,7 @@
 module ActiveAdmin
   module Views
 
-    # # Index as a Table
     #
-    # By default, the index page is a table with each of the models content columns and links to
     # show, edit and delete the object. There are many ways to customize what gets
     # displayed.
     #
@@ -183,12 +181,11 @@ module ActiveAdmin
     # ```
     #
     class IndexAsTable < ActiveAdmin::Component
-
       def build(page_presenter, collection)
         table_options = {
           id: "index_table_#{active_admin_config.resource_name.plural}",
           sortable: true,
-          class: "index_table index",
+          class: "index_table index table",
           i18n: active_admin_config.resource_class,
           paginator: page_presenter[:paginator] != false,
           row_class: page_presenter[:row_class]
@@ -228,7 +225,7 @@ module ActiveAdmin
         # Display a column for checkbox
         def selectable_column
           return unless active_admin_config.batch_actions.any?
-          column resource_selection_toggle_cell, class: 'col-selectable' do |resource|
+          column resource_selection_toggle_cell, class: 'selectable' do |resource|
             resource_selection_cell resource
           end
         end
@@ -242,10 +239,6 @@ module ActiveAdmin
               resource.id
             end
           end
-        end
-
-        def default_actions
-          raise '`default_actions` is no longer provided in ActiveAdmin 1.x. Use `actions` instead.'
         end
 
         # Add links to perform actions.
@@ -284,16 +277,14 @@ module ActiveAdmin
           dropdown      = options.delete(:dropdown) { false }
           dropdown_name = options.delete(:dropdown_name) { I18n.t 'active_admin.dropdown_actions.button_label', default: 'Actions' }
 
-          options[:class] ||= 'col-actions'
-
           column name, options do |resource|
             if dropdown
               dropdown_menu dropdown_name do
-                dropdown_defaults(resource) if defaults
+                items_default_actions(resource) if defaults
                 instance_exec(resource, &block) if block_given?
               end
             else
-              text_node defaults(resource) if defaults
+              text_node default_actions(resource) if defaults
               text_node instance_exec(resource, &block) if block_given?
             end
           end
@@ -301,7 +292,7 @@ module ActiveAdmin
 
       private
 
-        def dropdown_defaults(resource)
+        def items_default_actions(resource)
           if controller.action_methods.include?('show') && authorized?(ActiveAdmin::Auth::READ, resource)
             item I18n.t('active_admin.view'), resource_path(resource), class: 'view_link'
           end
@@ -314,19 +305,20 @@ module ActiveAdmin
           end
         end
 
-        def defaults(resource)
-          links = ''.html_safe
+        def default_actions(resource)
+          links = '<div class="text-center table-action"><div class="btn-group">'
           if controller.action_methods.include?('show') && authorized?(ActiveAdmin::Auth::READ, resource)
-            links << link_to(I18n.t('active_admin.view'), resource_path(resource), class: 'member_link view_link')
+            links << link_to(I18n.t('active_admin.view'), resource_path(resource), class: 'member_link view_link btn btn-xs btn-info')
           end
           if controller.action_methods.include?('edit') && authorized?(ActiveAdmin::Auth::UPDATE, resource)
-            links << link_to(I18n.t('active_admin.edit'), edit_resource_path(resource), class: 'member_link edit_link')
+            links << link_to(I18n.t('active_admin.edit'), edit_resource_path(resource), class: 'member_link edit_link btn btn-xs bg-orange')
           end
           if controller.action_methods.include?('destroy') && authorized?(ActiveAdmin::Auth::DESTROY, resource)
-            links << link_to(I18n.t('active_admin.delete'), resource_path(resource), class: 'member_link delete_link',
+            links << link_to(I18n.t('active_admin.delete'), resource_path(resource), class: 'member_link delete_link btn btn-xs btn-danger',
               method: :delete, data: {confirm: I18n.t('active_admin.delete_confirmation')})
           end
-          links
+          links << '</div></div>'
+          links.html_safe
         end
       end # IndexTableFor
 

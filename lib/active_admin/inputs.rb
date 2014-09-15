@@ -11,5 +11,8 @@ module ActiveAdmin
     autoload :FilterSelectInput
     autoload :FilterCheckBoxesInput
     autoload :FilterBooleanInput
+
+    autoload :BooleanInput
+    autoload :DatetimeSelectInput
   end
 end

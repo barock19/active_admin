@@ -67,20 +67,25 @@ module ActiveAdmin
           filters.each do |attribute, opts|
             next if opts.key?(:if)     && !call_method_or_proc_on(self, opts[:if])
             next if opts.key?(:unless) &&  call_method_or_proc_on(self, opts[:unless])
-
             f.filter attribute, opts.except(:if, :unless)
           end
 
-          buttons = content_tag :div, class: "buttons" do
-            f.submit(I18n.t('active_admin.filters.buttons.filter')) +
-              link_to(I18n.t('active_admin.filters.buttons.clear'), '#', class: 'clear_filters_btn') +
+          clear_filter = url_for(params.except(:q, :page, :commit,:utf8))
+          buttons = content_tag :div, class: "actions" do
+            f.submit(I18n.t('active_admin.filters.buttons.filter'), class: 'btn btn-primary btn-flat') +
+              link_to(I18n.t('active_admin.filters.buttons.clear'), clear_filter, class: 'clear_filters_btn btn btn-flat btn-default') +
               hidden_field_tags_for(params, except: [:q, :page])
           end
 
-          f.form_buffers.last + buttons
+          final_buffer = <<-END.strip_heredoc.html_safe
+            <div class="filter-wrapper">
+              #{f.form_buffers.last}
+            </div>
+            #{buttons}
+          END
+          final_buffer
         end
       end
-
     end
 
   end
