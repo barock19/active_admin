@@ -1,6 +1,6 @@
-@import url(//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic)
-
-@import url(//fonts.googleapis.com/css?family=Kaushan+Script)
+// @import url(//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,300italic,400italic,600italic)
+//
+// @import url(//fonts.googleapis.com/css?family=Kaushan+Script)
 
 /*! 
  *     AdminLTE v1.2
@@ -106,7 +106,6 @@ body.fixed
 .content
   padding: 20px 15px
   background: #f9f9f9
-  overflow: auto
 
 /* Utility
 /* H1 - H6 font
@@ -215,9 +214,6 @@ img
 .text-blue
   color: #0073b7 !important
 
-.text-black
-  color: #222222 !important
-
 .text-light-blue
   color: #3c8dbc !important
 
@@ -293,34 +289,11 @@ img
   td, th
     background-color: #f3f4f5
 
-.table.no-border
-  border: 0
-  td, th
-    border: 0
-
 /* .text-center in tables
 
 table.text-center
-  text-align: center
   td, th
     text-align: center
-
-.table.align
-  th
-    text-align: left
-  td
-    text-align: right
-
-.text-bold
-  font-weight: 700
-  &.table
-    td, th
-      font-weight: 700
-
-.border-radius-none
-  -webkit-border-radius: 0 !important
-  -moz-border-radius: 0 !important
-  border-radius: 0 !important
 
 /* _fix for sparkline tooltip
 
@@ -329,108 +302,6 @@ table.text-center
   width: auto!important
   height: auto!important
 
-/*
- *Gradient Background colors
-
-.bg-teal-gradient
-  background: #39cccc !important
-  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #39cccc), color-stop(1, #7adddd)) !important
-  background: -ms-linear-gradient(bottom, #39cccc, #7adddd) !important
-  background: -moz-linear-gradient(center bottom, #39cccc 0%, #7adddd 100%) !important
-  background: -o-linear-gradient(#7adddd, #39cccc) !important
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7adddd', endColorstr='#39cccc', GradientType=0) !important
-  color: #fff
-
-.bg-light-blue-gradient
-  background: #3c8dbc !important
-  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #3c8dbc), color-stop(1, #67a8ce)) !important
-  background: -ms-linear-gradient(bottom, #3c8dbc, #67a8ce) !important
-  background: -moz-linear-gradient(center bottom, #3c8dbc 0%, #67a8ce 100%) !important
-  background: -o-linear-gradient(#67a8ce, #3c8dbc) !important
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#67a8ce', endColorstr='#3c8dbc', GradientType=0) !important
-  color: #fff
-
-.bg-blue-gradient
-  background: #0073b7 !important
-  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #0073b7), color-stop(1, #0089db)) !important
-  background: -ms-linear-gradient(bottom, #0073b7, #0089db) !important
-  background: -moz-linear-gradient(center bottom, #0073b7 0%, #0089db 100%) !important
-  background: -o-linear-gradient(#0089db, #0073b7) !important
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0089db', endColorstr='#0073b7', GradientType=0) !important
-  color: #fff
-
-.bg-aqua-gradient
-  background: #00c0ef !important
-  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #00c0ef), color-stop(1, #14d1ff)) !important
-  background: -ms-linear-gradient(bottom, #00c0ef, #14d1ff) !important
-  background: -moz-linear-gradient(center bottom, #00c0ef 0%, #14d1ff 100%) !important
-  background: -o-linear-gradient(#14d1ff, #00c0ef) !important
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#14d1ff', endColorstr='#00c0ef', GradientType=0) !important
-  color: #fff
-
-.bg-yellow-gradient
-  background: #f39c12 !important
-  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #f39c12), color-stop(1, #f7bc60)) !important
-  background: -ms-linear-gradient(bottom, #f39c12, #f7bc60) !important
-  background: -moz-linear-gradient(center bottom, #f39c12 0%, #f7bc60 100%) !important
-  background: -o-linear-gradient(#f7bc60, #f39c12) !important
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f7bc60', endColorstr='#f39c12', GradientType=0) !important
-  color: #fff
-
-.bg-purple-gradient
-  background: #932ab6 !important
-  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #932ab6), color-stop(1, #b959d9)) !important
-  background: -ms-linear-gradient(bottom, #932ab6, #b959d9) !important
-  background: -moz-linear-gradient(center bottom, #932ab6 0%, #b959d9 100%) !important
-  background: -o-linear-gradient(#b959d9, #932ab6) !important
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b959d9', endColorstr='#932ab6', GradientType=0) !important
-  color: #fff
-
-.bg-green-gradient
-  background: #00a65a !important
-  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #00a65a), color-stop(1, #00ca6d)) !important
-  background: -ms-linear-gradient(bottom, #00a65a, #00ca6d) !important
-  background: -moz-linear-gradient(center bottom, #00a65a 0%, #00ca6d 100%) !important
-  background: -o-linear-gradient(#00ca6d, #00a65a) !important
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ca6d', endColorstr='#00a65a', GradientType=0) !important
-  color: #fff
-
-.bg-red-gradient
-  background: #f56954 !important
-  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #f56954), color-stop(1, #f89384)) !important
-  background: -ms-linear-gradient(bottom, #f56954, #f89384) !important
-  background: -moz-linear-gradient(center bottom, #f56954 0%, #f89384 100%) !important
-  background: -o-linear-gradient(#f89384, #f56954) !important
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f89384', endColorstr='#f56954', GradientType=0) !important
-  color: #fff
-
-.bg-black-gradient
-  background: #222222 !important
-  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #222222), color-stop(1, #3c3c3c)) !important
-  background: -ms-linear-gradient(bottom, #222222, #3c3c3c) !important
-  background: -moz-linear-gradient(center bottom, #222222 0%, #3c3c3c 100%) !important
-  background: -o-linear-gradient(#3c3c3c, #222222) !important
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3c3c3c', endColorstr='#222222', GradientType=0) !important
-  color: #fff
-
-.bg-maroon-gradient
-  background: #85144b !important
-  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #85144b), color-stop(1, #b11b64)) !important
-  background: -ms-linear-gradient(bottom, #85144b, #b11b64) !important
-  background: -moz-linear-gradient(center bottom, #85144b 0%, #b11b64 100%) !important
-  background: -o-linear-gradient(#b11b64, #85144b) !important
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b11b64', endColorstr='#85144b', GradientType=0) !important
-  color: #fff
-
-.connectedSortable
-  min-height: 100px
-
-/*---------------------------------------------------
- *  LESS Elements 0.9
- *---------------------------------------------------
- *  A set of useful LESS mixins
- *  More info at: http://lesselements.com
- *---------------------------------------------------
 /*
  *    Components: navbar, logo and content header
  *-------------------------------------------------
@@ -925,22 +796,22 @@ body > .header
 
 /* Add fade animation to dropdown menus
 
-.open > .dropdown-menu
-  animation-name: fadeAnimation
-  animation-duration: .7s
-  animation-iteration-count: 1
-  animation-timing-function: ease
-  animation-fill-mode: forwards
-  -webkit-animation-name: fadeAnimation
-  -webkit-animation-duration: .7s
-  -webkit-animation-iteration-count: 1
-  -webkit-animation-timing-function: ease
-  -webkit-animation-fill-mode: forwards
-  -moz-animation-name: fadeAnimation
-  -moz-animation-duration: .7s
-  -moz-animation-iteration-count: 1
-  -moz-animation-timing-function: ease
-  -moz-animation-fill-mode: forwards
+// .open > .dropdown-menu
+//   animation-name: fadeAnimation
+//   animation-duration: .7s
+//   animation-iteration-count: 1
+//   animation-timing-function: ease
+//   animation-fill-mode: forwards
+//   -webkit-animation-name: fadeAnimation
+//   -webkit-animation-duration: .7s
+//   -webkit-animation-iteration-count: 1
+//   -webkit-animation-timing-function: ease
+//   -webkit-animation-fill-mode: forwards
+//   -moz-animation-name: fadeAnimation
+//   -moz-animation-duration: .7s
+//   -moz-animation-iteration-count: 1
+//   -moz-animation-timing-function: ease
+//   -moz-animation-fill-mode: forwards
 
 @keyframes fadeAnimation
   from
@@ -1259,6 +1130,7 @@ body > .header
     border-bottom-left-radius: 0
     border-bottom: 0px solid #f4f4f4
     color: #444
+    padding-bottom: 10px
     &:before
       display: table
       content: " "
@@ -1269,7 +1141,7 @@ body > .header
     >
       .fa, .glyphicon, .ion
         display: inline-block
-        padding: 10px 10px 10px 10px
+        padding: 10px 0px 10px 10px
         margin: 0
         font-size: 20px
         font-weight: 400
@@ -1277,13 +1149,13 @@ body > .header
         cursor: default
     .box-title
       display: inline-block
-      padding: 10px 10px 10px 10px
+      padding: 10px 0px 10px 10px
       margin: 0
       font-size: 20px
       font-weight: 400
       float: left
       cursor: default
-    a
+    a:not(.btn)
       color: #444
     > .box-tools
       padding: 5px 10px 5px 5px
@@ -1393,7 +1265,7 @@ body > .header
       background-color: #00a65a
       a
         color: #444
-    > .box-header > .box-tools .btn
+    > .box-header > .box-tools > .btn
       border: 0
       box-shadow: none
     &.collapsed-box .box-header
@@ -1533,14 +1405,13 @@ body > .header
         background: rgba(0, 0, 0, 0.5)
     .loading-img
       z-index: 1020
-      background: transparent url('../img/ajax-loader1.gif') 50% 50% no-repeat
+      background: transparent asset_url('admin-lte/ajax-loader1.gif') 50% 50% no-repeat
 
 /*
  *Component: timeline
  *--------------------
 
 .timeline
-  position: relative
   margin: 0 0 30px 0
   padding: 0
   list-style: none
@@ -1551,7 +1422,7 @@ body > .header
     bottom: 0
     width: 5px
     background: #ddd
-    left: 30px
+    left: 45px
     border: 1px solid #eee
     margin: 0
     -webkit-border-radius: 2px
@@ -1914,14 +1785,6 @@ body > .header
       background: #fff
       padding: 10px
 
-/* Nav tabs bottom
-
-.tabs-bottom
-  &.nav-3 li a
-    width: 3333.33333333% !important
-  li a
-    border: 0
-
 /* PAGINATION
 
 .pagination > li
@@ -1985,7 +1848,7 @@ body > .header
 /* ADD THIS CLASS TO THE <HTML> TAG
 
 .lockscreen
-  background: url(../img/blur-background09.jpg) repeat center center fixed
+  background: asset_url("admin-lte/blur-background09.jpg") repeat center center fixed
   -webkit-background-size: cover
   -moz-background-size: cover
   -o-background-size: cover
@@ -2076,18 +1939,6 @@ body > .header
   width: 360px
   margin: 90px auto 0 auto
   .header
-    -webkit-border-top-left-radius: 4px
-    -webkit-border-top-right-radius: 4px
-    -webkit-border-bottom-right-radius: 0
-    -webkit-border-bottom-left-radius: 0
-    -moz-border-radius-topleft: 4px
-    -moz-border-radius-topright: 4px
-    -moz-border-radius-bottomright: 0
-    -moz-border-radius-bottomleft: 0
-    border-top-left-radius: 4px
-    border-top-right-radius: 4px
-    border-bottom-right-radius: 0
-    border-bottom-left-radius: 0
     background: #3d9970
     box-shadow: inset 0px -3px 0px rgba(0, 0, 0, 0.2)
     padding: 20px 10px
@@ -2108,18 +1959,6 @@ body > .header
   .footer
     > .btn
       margin-bottom: 10px
-    -webkit-border-top-left-radius: 0
-    -webkit-border-top-right-radius: 0
-    -webkit-border-bottom-right-radius: 4px
-    -webkit-border-bottom-left-radius: 4px
-    -moz-border-radius-topleft: 0
-    -moz-border-radius-topright: 0
-    -moz-border-radius-bottomright: 4px
-    -moz-border-radius-bottomleft: 4px
-    border-top-left-radius: 0
-    border-top-right-radius: 0
-    border-bottom-right-radius: 4px
-    border-bottom-left-radius: 4px
 
 @media (max-width: 767px)
   .form-box
@@ -2486,7 +2325,7 @@ body > .header
   padding: 0
   width: 18px
   height: 18px
-  background: rgba(255, 255, 255, 0.7) url(iCheck/minimal/minimal.png) no-repeat
+  background: rgba(255, 255, 255, 0.7) asset_url("admin-lte/iCheck/minimal/minimal.png") no-repeat
   border: none
   cursor: pointer
 
@@ -2517,7 +2356,7 @@ body > .header
 /* Retina support
 @media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3 / 2), only screen and (min-device-pixel-ratio: 1.5)
   .icheckbox_minimal, .iradio_minimal
-    background-image: url('iCheck/minimal/minimal@2x.png')
+    background-image: asset_url('/admin-lte/iCheck/minimal/minimal@2x.png')
     -webkit-background-size: 200px 20px
     background-size: 200px 20px
 

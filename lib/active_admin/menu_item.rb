@@ -55,6 +55,7 @@ module ActiveAdmin
       @html_options   = options[:html_options] || {}
       @should_display = options[:if]           || proc{true}
       @parent         = options[:parent]
+      @icon_class     = options[:icon_class]
 
       yield(self) if block_given? # Builder style syntax
     end
@@ -69,6 +70,20 @@ module ActiveAdmin
 
     def url(context = nil)
       render_in_context context, @url
+    end
+
+    def icon
+      if @icon_class.is_a?(String)
+        icon_html = <<-HTML
+        <i class="fa #{@icon_class}"></i>
+        HTML
+      elsif @icon_class == false
+        icon_html = ''
+      else
+        icon_html = <<-HTML
+        <i class="fa #{ActiveAdmin.icon_collection.sample}"></i>
+        HTML
+      end
     end
 
     # Don't display if the :if option passed says so

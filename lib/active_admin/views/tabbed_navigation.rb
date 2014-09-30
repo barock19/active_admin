@@ -43,7 +43,7 @@ module ActiveAdmin
         li id: item.id do |li|
           li.add_class "active" if item.current? assigns[:current_tab]
           label_with_icon = <<-END.strip_heredoc.html_safe
-            <i class="fa #{ActiveAdmin.icon_collection.sample}"></i>
+            #{item.icon}
             #{item.label(self)}
           END
           text_node link_to label_with_icon, item.url(self), item.html_options

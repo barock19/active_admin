@@ -1,8 +1,9 @@
+require 'gravatarify'
 module ActiveAdmin
   module Views
     module Pages
       class Base < Arbre::HTML::Document
-
+        include Gravatarify::Helper
         def build(*args)
           super
           add_classes_to_body
@@ -115,7 +116,11 @@ module ActiveAdmin
 
         def avatar_path
           avatar_file = "admin-lte/avatar#{(1..6).to_a.sample}.png"
-          image_path(avatar_file)
+          fallback_path = %w( 
+          https://camo.githubusercontent.com/2eaee3bb66d1ab28ee147605a4658bb290baf437/68747470733a2f2f646c2e64726f70626f7875736572636f6e74656e742e636f6d2f752f3236323931392f4964656e7469636f6e732f312e706e67
+          https://camo.githubusercontent.com/f731d6b6e708a25b3720c9b6ffd75ee3617469c6/68747470733a2f2f646c2e64726f70626f7875736572636f6e74656e742e636f6d2f752f3236323931392f4964656e7469636f6e732f322e706e67
+          https://camo.githubusercontent.com/802e082800ee643f5b24135f0d7199a64cbfd23d/68747470733a2f2f646c2e64726f70626f7875736572636f6e74656e742e636f6d2f752f3236323931392f4964656e7469636f6e732f332e706e67 )
+          gravatar_url current_active_admin_user.email,size: 60, default: fallback_path.sample
         end
 
         def avatar_name
